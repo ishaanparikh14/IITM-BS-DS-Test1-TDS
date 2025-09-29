@@ -1,0 +1,21 @@
+name: Email Step Workflow
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: 25f1000038@ds.study.iitm.ac.in
+        run: |
+          echo "Hello from IITM BS Data Science student!"
+          echo "Email: 25f1000038@ds.study.iitm.ac.in"
+          echo "This step contains my email address as required"
+          echo "Current directory: $(pwd)"
+          ls -la
