@@ -1,0 +1,39 @@
+name: Cache Demo Workflow
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  cache-demo:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Prime cache
+      id: prime-cache-4b02f81
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache
+          node_modules
+          .next/cache
+        key: cache-4b02f81-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}
+        restore-keys: |
+          cache-4b02f81-${{ runner.os }}-
+          
+    - name: Cache status
+      run: |
+        if steps.prime-cache-4b02f81.outputs.cache-hit == 'true'; then
+          echo "Cache hit - dependencies restored"
+        else
+          echo "Cache miss - will save dependencies"
+          # Simulate dependency installation
+          mkdir -p node_modules
+          echo "fake dependency" > node_modules/dep.txt
+        fi
