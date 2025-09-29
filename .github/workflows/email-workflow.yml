@@ -1,0 +1,19 @@
+name: Email Step Verification
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  verify-email-step:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: "25f1000038@ds.study.iitm.ac.in"
+        id: "25f1000038@ds.study.iitm.ac.in"
+        run: |
+          echo "Step with email address as both name and ID"
+          echo "This step should be detected by the verification system"
