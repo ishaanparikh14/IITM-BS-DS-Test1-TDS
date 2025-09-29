@@ -2,22 +2,18 @@ name: Email Step Workflow
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: 25f1000038@ds.study.iitm.ac.in
-      run: |
-        echo "Hello from IITM student!"
-        echo "Current date: $(date)"
-        echo "Repository: ${{ github.repository }}"
+      - name: Checkout repository
+        uses: actions/checkout@v4
         
-    - name: Regular step
-      run: echo "This is a normal step after the email step"
+      - name: 25f1000038@ds.study.iitm.ac.in
+        run: |
+          echo "Hello from IITM BS Data Science student!"
+          echo "This step contains my email address: 25f1000038@ds.study.iitm.ac.in"
+          echo "Workflow executed successfully!"
