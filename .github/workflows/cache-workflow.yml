@@ -1,0 +1,42 @@
+name: Cache Dependencies Workflow
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  cache-demo:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: prime-cache-4b02f81
+      id: prime-cache-4b02f81
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache
+          node_modules
+          .next/cache
+          venv/
+          __pycache__/
+        key: cache-4b02f81-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/requirements.txt') }}
+        restore-keys: |
+          cache-4b02f81-${{ runner.os }}-
+          
+    - name: Echo cache result
+      run: |
+        echo "Cache hit: ${{ steps.prime-cache-4b02f81.outputs.cache-hit }}"
+        if [ "${{ steps.prime-cache-4b02f81.outputs.cache-hit }}" = "true" ]; then
+          echo "✅ Cache restored successfully from key: cache-4b02f81"
+        else
+          echo "🔄 Cache miss - priming the cache with key: cache-4b02f81"
+          # Create some dummy dependency files to cache
+          mkdir -p node_modules
+          echo "simulated dependencies" > node_modules/deps.txt
+          mkdir -p venv
+          echo "python dependencies" > venv/requirements.txt
+        fi
